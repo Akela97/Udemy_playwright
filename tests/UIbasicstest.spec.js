@@ -78,7 +78,7 @@ await expect(agreeCheckBox).toBeChecked();
 
 });
 
-test.only('child window controls', async ({browser}) =>{
+test('child window controls', async ({browser}) =>{
 
 const context = await browser.newContext();
 const page = await context.newPage();
