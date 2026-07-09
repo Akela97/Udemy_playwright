@@ -102,8 +102,8 @@ for(let i=0;i<rowcount;i++)
 }
 
 const orderDetails = await page.locator('.col-text').textContent();
-console.log(orderDetails);
-//expect (orderDetails.includes(orderid)).toBeTruthy();
+//console.log(orderDetails);
+expect (orderDetails.includes(orderid)).toBeTruthy();
 expect (orderid.includes(orderDetails)).toBeTruthy();
 
 
