@@ -84,6 +84,31 @@ await expect(await page.locator('.hero-primary')).toHaveText(' Thankyou for the 
 const orderid = await page.locator('.em-spacer-1 .ng-star-inserted').textContent();
 console.log(orderid);
 
+await page.locator('.btn.btn-custom[routerlink=\'/dashboard/myorders\']').click();
+await page.locator('tbody').waitFor();
+const rowtable = await page.locator('tbody tr');
+const rowcount= await rowtable.count();
+
+for(let i=0;i<rowcount;i++)
+    {
+
+     const roworderid=await rowtable.nth(i).locator('th').textContent();
+     if(orderid.includes(roworderid))
+     {
+      await rowtable.nth(i).locator('button').first().click();
+      break;    
+     }
+
+}
+
+const orderDetails = await page.locator('.col-text').textContent();
+console.log(orderDetails);
+//expect (orderDetails.includes(orderid)).toBeTruthy();
+expect (orderid.includes(orderDetails)).toBeTruthy();
+
+
+
+
 //await page.pause();
 
 
