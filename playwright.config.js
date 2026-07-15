@@ -12,12 +12,15 @@ const config = ({
     timeout: 5000
   },
   reporter: 'html',
+  
 
   use: {
     browserName: 'chromium',
     headless: false,
+    screenshot: 'only-on-failure',
    
-    trace: 'on-first-retry',
+
+    trace: 'retain-on-failure',//'on-first-retry',
   }, 
 
  
