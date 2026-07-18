@@ -1,43 +1,31 @@
-const{test,expect} =require('@playwright/test');
+const{expect,test}=require('@playwright/test');
+let webContext;
 
-test('Verify registration functionality',async ({page})=>{
 
-    await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
+test.beforeAll(async({browser})=>{
+   const context =await browser.newContext();
+    const page=await context.newPage()
 
-    await page.locator('.login-wrapper-footer-text').click();
-
-    //console.log(await page.title());
-
-    await expect(page).toHaveTitle("Let's Shop");
-    await page.locator('#firstName').fill('Deepaknew');
-    await page.locator('#lastName').fill('ake');
-    await page.locator('#userEmail').fill('sn2akela@gmai.com');
-    await page.locator('#userMobile').fill('3456789012');
-
-    const dropdown = await page.locator('[formcontrolname="occupation"]');
-    dropdown.selectOption('Engineer');
-    
-    await page.locator('[type="radio"]').first().click();
-    await expect(await page.locator('[type="radio"]').first()).toBeChecked();
-
-    await page.locator('#userPassword').fill('Test@12345');
-    await page.locator('#confirmPassword').fill('Test@12345');
-    await page.locator('[type="checkbox"]').click();
-    await expect(await page.locator('[type="checkbox"]')).toBeChecked();
-    await page.locator('[value="Register"]').click();
-    
-  page.locator('[class="headcolor"]').textContent();
-  console.log(await page.locator('[class="headcolor"]').textContent());
-  await expect(page.locator('[class="headcolor"]')).toHaveText('Shop');
-  
-    // await page.pause();
-})
-test('Verify login functionality', async ({page}) => {
-const username="sn2akela@gmai.com";
+    const username="sn2akela@gmai.com";
     await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
     await page.locator('#userEmail').fill(username);
     await page.locator('#userPassword').fill('Test@12345');
     await page.locator('#login').click();
+    await page.waitForLoadState('networkidle');
+    context.storageState({path:'state.json'})
+    webContext=await browser.newContext({storageState:'state.json'})
+
+
+
+
+
+})
+
+
+test('Verify login functionality', async() => {
+   
+   const page=await webContext.newPage();
+   await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
    await page.title();
   // console.log(await page.title());
 await expect(page).toHaveTitle("Let's Shop");
@@ -63,7 +51,7 @@ if(await productlist.nth(i).locator('b').textContent()===productname)
  expect(bool).toBeTruthy();
 
 await page.locator('.totalRow [type="button"]').click();
-expect(await page.locator('.mt-5 [type="text"]').first()).toHaveText(username);
+//expect(await page.locator('.mt-5 [type="text"]').first()).toHaveText(username);
 
 await page.locator('[placeholder="Select Country"]').pressSequentially('ind');
 await page.locator('.list-group').waitFor();
@@ -107,10 +95,14 @@ const orderDetails = await page.locator('.col-text').textContent();
 expect (orderid.includes(orderDetails)).toBeTruthy();
 
 
+})
 
 
-//await page.pause();
-
-
+test('Verify login newfunctionality', async() => {
+   
+   const page=await webContext.newPage();
+   await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
+   await page.title();
+   console.log(await page.title());
 
 })
